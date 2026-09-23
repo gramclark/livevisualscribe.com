@@ -23,4 +23,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://gramclark.github.io/gramclark/sitemap.xml
+Sitemap: https://gramclark.github.io/livevisualscribe.com/sitemap.xml
