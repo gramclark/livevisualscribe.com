@@ -1,0 +1,386 @@
+/* ==========================================================================
+   Graham Clark Stecklein — Scribing Portfolio
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Luckiest+Guy&display=swap');
+
+:root {
+  /* --bg-top / --bg-bottom / --ink / --ink-soft / --line are recomputed
+     live by js/time-color.js based on the visitor's local time + date.
+     These are just the first-paint fallback, so the page never flashes
+     unstyled before the script runs. */
+  --bg-top: #F1EDE2;
+  --bg-bottom: #FAF8F2;
+  --ink: #201F1C;
+  --ink-soft: #55524A;
+  --red: #D8432E;
+  --blue: #2C5C8A;
+  --line: #DCD6C6;
+
+  --sans: Futura, 'Century Gothic', 'Avenir Next', 'Avenir', sans-serif;
+  --serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%) fixed;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background 3s ease, color 2s ease;
+}
+
+/* respect people who've asked their system for less motion */
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none; }
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+/* ---------- layout shell ---------- */
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ---------- header / hero ---------- */
+
+.site-header {
+  padding: 28px 0 0;
+}
+
+.site-header .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.name-mark {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+}
+
+.header-contact {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.header-contact a { text-decoration: none; border-bottom: 1px solid var(--line); }
+
+.hero {
+  padding: 90px 0 70px;
+  text-align: left;
+}
+
+.hero h1 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(42px, 7vw, 88px);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin: 0 0 22px;
+  max-width: 15ch;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--red);
+}
+
+.hero p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  margin: 0;
+}
+
+.hero-location {
+  font-family: var(--sans) !important;
+  font-style: normal !important;
+  font-size: 15px !important;
+  margin-top: 14px !important;
+}
+
+/* ---------- section headings ---------- */
+
+.tier {
+  padding: 56px 0;
+}
+
+.tier-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.tier-head h2 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(26px, 3.4vw, 36px);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.tier-head p {
+  font-family: var(--serif);
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+  max-width: 52ch;
+  font-size: 18px;
+}
+
+.tier-index {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  padding-bottom: 4px;
+}
+
+/* ---------- carousel ---------- */
+
+.carousel-shell {
+  position: relative;
+}
+
+.carousel {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.carousel::-webkit-scrollbar { display: none; }
+
+.carousel figure {
+  flex: 0 0 auto;
+  width: min(76vw, 620px);
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.carousel img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--bg-top);
+}
+
+.carousel figcaption {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+}
+
+.carousel.empty {
+  align-items: center;
+  min-height: 140px;
+  border: 1px dashed var(--line);
+}
+
+.carousel.empty p {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink-soft);
+  padding: 0 24px;
+}
+
+/* desktop arrows */
+
+.carousel-arrow {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg-bottom);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 18px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.carousel-arrow:hover { border-color: var(--ink); }
+.carousel-arrow.prev { left: -22px; }
+.carousel-arrow.next { right: -22px; }
+
+@media (min-width: 860px) {
+  .carousel-arrow { display: flex; }
+}
+
+/* ---------- splash strip ---------- */
+
+.splash {
+  padding: 10px 0 56px;
+}
+
+.splash img {
+  width: 100%;
+  height: 46vw;
+  max-height: 460px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+
+.splash figcaption {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+}
+
+/* ---------- FAQ ---------- */
+
+.faq {
+  padding: 40px 0 56px;
+}
+
+.faq h2 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(24px, 3.2vw, 32px);
+  margin: 0 0 28px;
+}
+
+.faq-item {
+  max-width: 68ch;
+  padding: 14px 0;
+}
+
+.faq-item h3 {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  padding-top: 56px;
+}
+
+.footer-intro {
+  padding: 0 0 40px;
+}
+
+.footer-intro .wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footer-intro h2 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 44px);
+  margin: 0;
+  max-width: 14ch;
+}
+
+.footer-contact {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.footer-contact a { text-decoration: none; border-bottom: 1px solid var(--line); }
+
+.footer-photo {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-photo img {
+  width: 100%;
+  height: 62vw;
+  max-height: 680px;
+  object-fit: cover;
+  display: block;
+}
+
+.footer-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: clamp(16px, 7vw, 90px);
+  pointer-events: none;
+}
+
+.footer-splash-badge {
+  position: relative;
+  background: #FAA613; /* summer accent, per brief — deliberately fixed, not the dynamic seasonal color */
+  padding: clamp(22px, 4.5vw, 44px) clamp(34px, 7vw, 68px);
+  clip-path: polygon(9% 2%, 34% 0%, 58% 3%, 84% 0%, 97% 12%, 100% 38%, 96% 60%, 100% 84%, 88% 99%, 63% 96%, 40% 100%, 15% 97%, 2% 86%, 0% 60%, 4% 36%, 0% 15%);
+  opacity: 0;
+  transform: rotate(-5deg) translateY(160px);
+  will-change: transform, opacity;
+}
+
+.footer-splash-text {
+  font-family: 'Luckiest Guy', var(--sans);
+  color: #fff;
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 3px 3px 0 var(--ink), -1px -1px 0 var(--ink), 1px -1px 0 var(--ink), -1px 1px 0 var(--ink);
+  font-size: clamp(30px, 5.6vw, 72px);
+  line-height: 1.05;
+  text-align: center;
+}
+
+.footer-copyright {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-splash-badge { opacity: 1 !important; transform: rotate(-5deg) translateY(0) !important; }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 620px) {
+  .carousel img { height: 260px; }
+  .hero { padding: 56px 0 44px; }
+  .footer-splash-text { font-size: clamp(24px, 8vw, 44px); }
+}

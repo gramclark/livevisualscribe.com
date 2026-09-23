@@ -1,0 +1,66 @@
+/* ==========================================================================
+   GALLERY DATA
+   This is the only file you need to touch when you add new images.
+
+   1. Drop your .png into the matching folder inside /images/work/...
+   2. Add one line to that tier's array below: filename + a short caption.
+   3. Save, commit, push. That's it.
+
+   Order in the array = order in the carousel.
+   ========================================================================== */
+
+const GALLERY = {
+
+  liveAnalog: {
+    folder: "images/work/live-analog/",
+    items: [
+      { file: "01_Day-One.jpg", caption: "Live graphic recording, fast-talk & multi-day conference sessions" },
+      { file: "upscale2.png", caption: "Scribing makes an event more fun while keeping attention focused on what's being said" },
+      { file: "enhanced_image_2.png", caption: "Make sure people feel heard by capturing their comments" },
+      { file: "2_Exercise-2.png", caption: "Large-scale live scribing wall" },
+      { file: "04_Russ.png", caption: "Analog graphic recording, group discussion closing synthesis" },
+      { file: "Culture-for-Trust.jpg", caption: "Live scribing, group discussion on team autonomy" },
+      { file: "enhanced_image_1.png", caption: "Scribing on whiteboards makes a space more engaging and keeps people focused" },
+      { file: "Mindset-and-Behaviors-for Trust.jpg", caption: "Event graphic recording, speaker panel and audience Q&A" },
+      { file: "portraits.png", caption: "Live portrait drawings and carictures can be included" },
+      { file: "Report-out.jpg", caption: "Technical content can be captured in an engaging way" },
+      { file: "upscale1.png", caption: "Content rich illustrations can help an important discussion live on" },
+
+    ]
+  },
+
+  liveDigital: {
+    folder: "images/work/live-digital/",
+    items: [
+      { file: "15_Don_Thomas.png", caption: "Live graphic recording off-site on Procreate" },
+      { file: "Physical_Ai_Pitch_Night.png", caption: "Live graphic recording of LA Deep Tech Week event" },
+    ]
+  },
+
+  illustration: {
+    folder: "images/work/illustration/",
+    items: [
+      { file: "01-intro-illustration.png", caption: "Custom illustration for mission and vision, hand-drawn" },
+      { file: "structure.png", caption: "Illustration for car manufacturer presentation, hand-drawn and digital" },
+      { file: "796.JPG", caption: "Photo of posters in-situ for presentation by car manufacturer" },
+      { file: "MDTA-graphic.png", caption: "Mission graphic for Maryland Department of Transportation" },
+    ]
+  },
+
+  storyboardVideo: {
+    folder: "images/work/storyboard-video/",
+    items: [
+      { file: "Thumbnail.png", caption: "Social-native video produced for UT Austin" },
+    ]
+  }
+
+};
+
+/* Splash images — full-width breakout photos placed between sections
+   (event photos, participants sharing on social, behind-the-scenes, etc). */
+const SPLASH_IMAGES = [
+  { file: "images/splash/splash-01-event-photo.png", caption: "Live scribing on-site at a client event" },
+];
+
+/* Footer photo — one big full-width image at the very bottom of the page. */
+const FOOTER_PHOTO = "images/footer/footer-photo.jpg";
