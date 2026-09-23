@@ -30,10 +30,10 @@ const LIGHT_BASE = "#FAF8F2"; // paper
 
 const TEXT_DARK  = "#201F1C"; // ink on light backgrounds
 const TEXT_LIGHT = "#F3F0E6"; // near-white on dark backgrounds
-const SOFT_DARK  = "#55524A";
+const SOFT_DARK  = "#201F1C";
 const SOFT_LIGHT = "#C9C4B4";
 const LINE_DARK  = "#DCD6C6";
-const LINE_LIGHT = "#3A382F";
+const LINE_LIGHT = "#201F1C";
 
 function hexToRgb(hex) {
   const n = parseInt(hex.replace("#", ""), 16);
@@ -97,9 +97,9 @@ function applyTimeAndSeason() {
   const nightTop  = mix(DARK_BASE, season, 0.10);
   const bgTop     = mix(nightTop, dayTop, light);
 
-  const ink     = mix(TEXT_LIGHT, TEXT_DARK, light);
-  const inkSoft = mix(SOFT_LIGHT, SOFT_DARK, light);
-  const line    = mix(LINE_LIGHT, LINE_DARK, light);
+  const ink = light > 0.5 ? "#201F1C" : "#F3F0E6";
+  const inkSoft = light > 0.5 ? "#201F1C" : "#F3F0E6";
+  const line = light > 0.5 ? "#201F1C" : "#F3F0E6";
 
   const root = document.documentElement.style;
   root.setProperty("--bg-top", bgTop);
