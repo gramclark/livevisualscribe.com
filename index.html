@@ -112,9 +112,7 @@
         <span class="tier-index">01 / Analog</span>
       </div>
       <div class="carousel-shell">
-        <button class="carousel-arrow prev" aria-label="Scroll left">&larr;</button>
         <div class="carousel"></div>
-        <button class="carousel-arrow next" aria-label="Scroll right">&rarr;</button>
       </div>
     </div>
   </section>
@@ -129,9 +127,7 @@
         <span class="tier-index">02 / Digital</span>
       </div>
       <div class="carousel-shell">
-        <button class="carousel-arrow prev" aria-label="Scroll left">&larr;</button>
         <div class="carousel"></div>
-        <button class="carousel-arrow next" aria-label="Scroll right">&rarr;</button>
       </div>
     </div>
   </section>
@@ -148,9 +144,7 @@
         <span class="tier-index">03 / Illustration</span>
       </div>
       <div class="carousel-shell">
-        <button class="carousel-arrow prev" aria-label="Scroll left">&larr;</button>
         <div class="carousel"></div>
-        <button class="carousel-arrow next" aria-label="Scroll right">&rarr;</button>
       </div>
     </div>
   </section>
@@ -165,14 +159,27 @@
         <span class="tier-index">04 / Motion</span>
       </div>
       <div class="carousel-shell">
-        <button class="carousel-arrow prev" aria-label="Scroll left">&larr;</button>
         <div class="carousel"></div>
-        <button class="carousel-arrow next" aria-label="Scroll right">&rarr;</button>
       </div>
     </div>
   </section>
 
 </main>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav prev" id="lightbox-prev" aria-label="Previous image">&larr;</button>
+  <figure class="lightbox-figure">
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <div class="lightbox-video" id="lightbox-video">
+      <iframe id="lightbox-video-frame" src="" title="Video" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <figcaption class="lightbox-caption" id="lightbox-caption"></figcaption>
+  </figure>
+  <button class="lightbox-nav next" id="lightbox-next" aria-label="Next image">&rarr;</button>
+</div>
 
 <section class="faq" id="faq">
   <div class="wrap">
