@@ -228,11 +228,11 @@ a { color: inherit; }
 }
 
 .splash img {
-  width: 100%;
+  width: 45%;
   height: 46vw;
+  align-content: center;
   max-height: 460px;
-  object-fit: cover;
-  border: 1px solid var(--line);
+  object-fit: contain;
 }
 
 .splash figcaption {

@@ -1,13 +1,3 @@
-/* ==========================================================================
-   GALLERY DATA
-   This is the only file you need to touch when you add new images.
-
-   1. Drop your .png into the matching folder inside /images/work/...
-   2. Add one line to that tier's array below: filename + a short caption.
-   3. Save, commit, push. That's it.
-
-   Order in the array = order in the carousel.
-   ========================================================================== */
 
 const GALLERY = {
 
@@ -24,6 +14,7 @@ const GALLERY = {
       { file: "Mindset-and-Behaviors-for Trust.jpg", caption: "Event graphic recording, speaker panel and audience Q&A" },
       { file: "portraits.png", caption: "Live portrait drawings and carictures can be included" },
       { file: "Report-out.jpg", caption: "Technical content can be captured in an engaging way" },
+      { file: "02_Intro_1o1.jpg", caption: "Sometimes you get to add a nice dolphin in a hot tub to your scribing" },
       { file: "upscale1.png", caption: "Content rich illustrations can help an important discussion live on" },
 
     ]
@@ -43,23 +34,30 @@ const GALLERY = {
       { file: "01-intro-illustration.png", caption: "Custom illustration for mission and vision, hand-drawn" },
       { file: "structure.png", caption: "Illustration for car manufacturer presentation, hand-drawn and digital" },
       { file: "796.JPG", caption: "Photo of posters in-situ for presentation by car manufacturer" },
+      { file: "diane007-e1268508865726.jpg", caption: "Portrait of medical practicioner for office environment" },
       { file: "MDTA-graphic.png", caption: "Mission graphic for Maryland Department of Transportation" },
+      { file: "3-rickdoblin.jpg", caption: "Portrait of Rick Doblin, leader in alternative medicine research and MAPS founder" },
+
     ]
   },
 
-  storyboardVideo: {
-    folder: "images/work/storyboard-video/",
-    items: [
-      { file: "Thumbnail.png", caption: "Social-native video produced for UT Austin" },
-    ]
-  }
+storyboardVideo: {
+  folder: "images/work/storyboard-video/",
+  items: [
+    {
+      file: "Thumbnail.png",
+      caption: "Social-native video produced for UT Austin",
+      link: "https://www.youtube.com/shorts/5EBmtGzUUps"
+    }
+  ]
+}
 
 };
 
 /* Splash images — full-width breakout photos placed between sections
    (event photos, participants sharing on social, behind-the-scenes, etc). */
 const SPLASH_IMAGES = [
-  { file: "images/splash/splash-01-event-photo.png", caption: "Live scribing on-site at a client event" },
+  { file: "images/splash/splash-01-event-photo.png", caption: "Graphic recording works a treat to encourage engagement on social platforms." },
 ];
 
 /* Footer photo — one big full-width image at the very bottom of the page. */
