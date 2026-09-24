@@ -6,16 +6,16 @@ const GALLERY = {
     items: [
       { file: "01_Day-One.jpg", caption: "Live graphic recording, fast-talk & multi-day conference sessions" },
       { file: "upscale2.png", caption: "Scribing makes an event more fun while keeping attention focused on what's being said" },
+      { file: "02_Intro_1o1.jpg", caption: "Sometimes you get to add a nice dolphin in a hot tub to your scribing" },
       { file: "enhanced_image_2.png", caption: "Make sure people feel heard by capturing their comments" },
       { file: "2_Exercise-2.png", caption: "Large-scale live scribing wall" },
       { file: "04_Russ.png", caption: "Analog graphic recording, group discussion closing synthesis" },
       { file: "Culture-for-Trust.jpg", caption: "Live scribing, group discussion on team autonomy" },
       { file: "enhanced_image_1.png", caption: "Scribing on whiteboards makes a space more engaging and keeps people focused" },
+      { file: "upscale1.png", caption: "Content rich illustrations can help an important discussion live on" },
       { file: "Mindset-and-Behaviors-for Trust.jpg", caption: "Event graphic recording, speaker panel and audience Q&A" },
       { file: "portraits.png", caption: "Live portrait drawings and carictures can be included" },
       { file: "Report-out.jpg", caption: "Technical content can be captured in an engaging way" },
-      { file: "02_Intro_1o1.jpg", caption: "Sometimes you get to add a nice dolphin in a hot tub to your scribing" },
-      { file: "upscale1.png", caption: "Content rich illustrations can help an important discussion live on" },
 
     ]
   },
