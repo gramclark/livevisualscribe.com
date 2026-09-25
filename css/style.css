@@ -126,11 +126,14 @@ a { color: inherit; }
   color: var(--ink-soft) !important;
 }
 
+/* UPDATED FOR MOBILE CORRECTNESS */
 .hero-video {
   position: relative;
   width: 100%;
-  min-height: 220px;
-  height: 52vw;
+  /* Use aspect-ratio to keep it cinematic on mobile */
+  aspect-ratio: 1000 / 424; 
+  height: auto;
+  min-height: auto;
   overflow: hidden;
   background: #0c0b09;
 }
@@ -139,7 +142,7 @@ a { color: inherit; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: right center;
+  object-position: center center; /* Centered is usually safer for mobile */
   display: block;
 }
 
@@ -158,9 +161,13 @@ a { color: inherit; }
   .hero-video {
     flex: 1;
     height: auto;
+    aspect-ratio: auto; /* Let flex control height on desktop */
     margin-left: -8%; 
     -webkit-mask-image: linear-gradient(to left, black 75%, transparent 100%);
     mask-image: linear-gradient(to left, black 75%, transparent 100%);
+  }
+  .hero-video video {
+    object-position: right center;
   }
 }
 
@@ -205,7 +212,7 @@ a { color: inherit; }
 .footer-splash-text { font-family: 'Luckiest Guy', var(--sans); color: #fff; -webkit-text-stroke: 2px #000; paint-order: stroke fill; text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000; font-size: clamp(30px, 5.6vw, 72px); line-height: 1.05; text-align: center; }
 .footer-copyright { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font-family: var(--sans); font-size: 12px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
 
-/* ---------- LIGHTBOX (The fix is here) ---------- */
+/* ---------- LIGHTBOX ---------- */
 
 #lightbox {
   position: fixed;
@@ -218,15 +225,12 @@ a { color: inherit; }
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  /* Hidden by default */
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   backdrop-filter: blur(8px);
 }
 
-/* Toggled via JavaScript */
 #lightbox[aria-hidden="false"] {
   visibility: visible;
   opacity: 1;
