@@ -5,10 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Luckiest+Guy&display=swap');
 
 :root {
-  /* --bg-top / --bg-bottom / --ink / --ink-soft / --line are recomputed
-     live by js/time-color.js based on the visitor's local time + date.
-     These are just the first-paint fallback, so the page never flashes
-     unstyled before the script runs. */
   --bg-top: #F1EDE2;
   --bg-bottom: #FAF8F2;
   --ink: #201F1C;
@@ -36,13 +32,11 @@ body {
   transition: background 3s ease, color 2s ease;
 }
 
-/* respect people who've asked their system for less motion */
 @media (prefers-reduced-motion: reduce) {
   body { transition: none; }
 }
 
 img { max-width: 100%; display: block; }
-
 a { color: inherit; }
 
 /* ---------- layout shell ---------- */
@@ -56,7 +50,7 @@ a { color: inherit; }
 /* ---------- header / hero ---------- */
 
 .site-header {
-  padding: 28px 0 0;
+  padding: 28px 0;
 }
 
 .site-header .wrap {
@@ -80,384 +74,222 @@ a { color: inherit; }
 
 .header-contact a { text-decoration: none; border-bottom: 1px solid var(--line); }
 
-.hero {
-  padding: 90px 0 70px;
-  text-align: left;
+.hero { padding: 0; }
+
+.hero-banner {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; 
 }
 
-.hero h1 {
+.hero-text {
+  position: relative;
+  width: 100%;
+  padding: 40px 32px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-text h1 {
   font-family: var(--sans);
   font-weight: 700;
-  font-size: clamp(42px, 7vw, 88px);
+  font-size: clamp(36px, 8vw, 72px);
   line-height: 1.02;
   letter-spacing: -0.01em;
-  margin: 0 0 22px;
-  max-width: 15ch;
+  margin: 0 0 20px;
+  max-width: 14ch;
+  color: var(--ink);
 }
 
-.hero h1 em {
-  font-style: normal;
-  color: var(--red);
-}
+.hero-text h1 em { font-style: normal; color: var(--red); }
 
-.hero p {
+.hero-text p {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 22px;
+  font-size: 19px;
   color: var(--ink-soft);
-  max-width: 46ch;
+  max-width: 44ch;
   margin: 0;
 }
 
 .hero-location {
   font-family: var(--sans) !important;
   font-style: normal !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
   margin-top: 14px !important;
+  color: var(--ink-soft) !important;
 }
 
-/* ---------- section headings ---------- */
-
-.tier {
-  padding: 56px 0;
-}
-
-.tier-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 24px;
-  margin-bottom: 26px;
-}
-
-.tier-head h2 {
-  font-family: var(--sans);
-  font-weight: 700;
-  font-size: clamp(26px, 3.4vw, 36px);
-  margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.tier-head p {
-  font-family: var(--serif);
-  color: var(--ink-soft);
-  margin: 6px 0 0;
-  max-width: 52ch;
-  font-size: 18px;
-}
-
-.tier-index {
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--ink-soft);
-  white-space: nowrap;
-  padding-bottom: 4px;
-}
-
-/* ---------- carousel ---------- */
-
-.carousel-shell {
+.hero-video {
   position: relative;
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.carousel {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 12px 0;
-  background: #fff;
-  scrollbar-width: none;
-}
-
-.carousel::-webkit-scrollbar { display: none; }
-
-.carousel figure {
-  flex: 0 0 auto;
-  height: 420px;
-  margin: 0;
-  line-height: 0; /* kills any inline-content gap under the image */
-}
-
-.carousel img {
-  height: 100%;
-  width: auto;
-  max-width: none;
-  object-fit: contain;
-  background: #fff;
-  display: block;
-  cursor: pointer;
-}
-
-.carousel.empty {
-  align-items: center;
-  min-height: 140px;
-  border: 1px dashed var(--line);
-}
-
-.carousel.empty p {
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--ink-soft);
-  padding: 0 24px;
-}
-
-/* desktop arrows */
-
-.single-work {
-  display: flex;
-  justify-content: center;
-  padding: 12px 0;
-}
-
-.single-work img {
-  max-width: min(100%, 640px);
-  height: auto;
-  display: block;
-  cursor: pointer;
-}
-
-/* ---------- splash strip ---------- */
-
-.splash {
-  padding: 10px 0 56px;
-}
-
-.splash img {
-  width: 45%;
-  height: 46vw;
-  align-content: center;
-  max-height: 460px;
-  object-fit: contain;
-}
-
-.splash figcaption {
-  font-family: var(--sans);
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin-top: 10px;
-}
-
-/* ---------- FAQ ---------- */
-
-.faq {
-  padding: 40px 0 56px;
-}
-
-.faq h2 {
-  font-family: var(--sans);
-  font-weight: 700;
-  font-size: clamp(24px, 3.2vw, 32px);
-  margin: 0 0 28px;
-}
-
-.faq-item {
-  max-width: 68ch;
-  padding: 14px 0;
-}
-
-.faq-item h3 {
-  font-family: var(--sans);
-  font-size: 17px;
-  font-weight: 700;
-  margin: 0 0 8px;
-}
-
-.faq-item p {
-  margin: 0;
-  color: var(--ink-soft);
-}
-
-/* ---------- footer ---------- */
-
-.site-footer {
-  padding-top: 56px;
-}
-
-.footer-intro {
-  padding: 0 0 40px;
-}
-
-.footer-intro .wrap {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.footer-intro h2 {
-  font-family: var(--sans);
-  font-weight: 700;
-  font-size: clamp(28px, 4vw, 44px);
-  margin: 0;
-  max-width: 14ch;
-}
-
-.footer-contact {
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.9;
-}
-
-.footer-contact a { text-decoration: none; border-bottom: 1px solid var(--line); }
-
-.footer-photo {
-  position: relative;
-  overflow: hidden;
-}
-
-.footer-photo img {
   width: 100%;
-  height: 62vw;
-  max-height: 680px;
+  min-height: 220px;
+  height: 52vw;
+  overflow: hidden;
+  background: #0c0b09;
+}
+
+.hero-video video {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: right center;
   display: block;
 }
 
-.footer-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: clamp(16px, 7vw, 90px);
-  pointer-events: none;
+@media (min-width: 760px) {
+  .hero-banner {
+    flex-direction: row;
+    min-height: 560px;
+  }
+  .hero-text {
+    flex: 0 0 45%;
+    padding-left: clamp(32px, 8vw, 120px);
+    position: relative;
+    z-index: 2;
+  }
+  .hero-text p { font-size: 21px; }
+  .hero-video {
+    flex: 1;
+    height: auto;
+    margin-left: -8%; 
+    -webkit-mask-image: linear-gradient(to left, black 75%, transparent 100%);
+    mask-image: linear-gradient(to left, black 75%, transparent 100%);
+  }
 }
 
-.footer-splash-badge {
-  position: relative;
-  background: #FAA613; /* summer accent, per brief — deliberately fixed, not the dynamic seasonal color */
-  padding: clamp(22px, 4.5vw, 44px) clamp(34px, 7vw, 68px);
-  clip-path: polygon(9% 2%, 34% 0%, 58% 3%, 84% 0%, 97% 12%, 100% 38%, 96% 60%, 100% 84%, 88% 99%, 63% 96%, 40% 100%, 15% 97%, 2% 86%, 0% 60%, 4% 36%, 0% 15%);
-  opacity: 0;
-  transform: rotate(-5deg) translateY(160px);
-  will-change: transform, opacity;
-}
+/* ---------- Content Sections ---------- */
 
-.footer-splash-text {
-  font-family: 'Luckiest Guy', var(--sans);
-  color: #fff;
-  -webkit-text-stroke: 2px var(--ink);
-  paint-order: stroke fill;
-  text-shadow: 3px 3px 0 var(--ink), -1px -1px 0 var(--ink), 1px -1px 0 var(--ink), -1px 1px 0 var(--ink);
-  font-size: clamp(30px, 5.6vw, 72px);
-  line-height: 1.05;
-  text-align: center;
-}
+.tier { padding: 56px 0; }
+.tier-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 26px; }
+.tier-head h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(26px, 3.4vw, 36px); margin: 0; letter-spacing: -0.01em; }
+.tier-head p { font-family: var(--serif); color: var(--ink-soft); margin: 6px 0 0; max-width: 52ch; font-size: 18px; }
+.tier-index { font-family: var(--sans); font-size: 14px; color: var(--ink-soft); white-space: nowrap; padding-bottom: 4px; }
 
-.footer-copyright {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 18px;
-  text-align: center;
-  font-family: var(--sans);
-  font-size: 12px;
-  color: #fff;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-}
+.carousel-shell { position: relative; width: 100vw; left: 50%; transform: translateX(-50%); }
+.carousel { display: flex; align-items: center; gap: 3px; overflow-x: auto; overflow-y: hidden; padding: 12px 0; background: #fff; scrollbar-width: none; }
+.carousel::-webkit-scrollbar { display: none; }
+.carousel figure { flex: 0 0 auto; height: 420px; margin: 0; line-height: 0; }
+.carousel img { height: 100%; width: auto; max-width: none; object-fit: contain; background: #fff; display: block; cursor: pointer; }
 
-@media (prefers-reduced-motion: reduce) {
-  .footer-splash-badge { opacity: 1 !important; transform: rotate(-5deg) translateY(0) !important; }
-}
+.single-work { display: flex; justify-content: left;}
+.single-work img { max-width: min(100%, 640px); height: auto; display: block; cursor: pointer; }
 
-/* ---------- responsive ---------- */
+.faq { padding: 40px 0 56px; }
+.faq h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(24px, 3.2vw, 32px); margin: 0 0 28px; }
+.faq-item { max-width: 68ch; padding: 14px 0; }
+.faq-item h3 { font-family: var(--sans); font-size: 17px; font-weight: 700; margin: 0 0 8px; }
+.faq-item p { margin: 0; color: var(--ink-soft); }
+.faq-layout { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+.faq-main { width: 100%; }
+.faq-side { flex: 0 0 auto; max-width: 180px; }
+.faq-side img { width: 100%; height: auto; display: block; }
+@media (min-width: 860px) { .faq-layout { flex-direction: row; align-items: flex-start; gap: 48px; } .faq-side { max-width: 240px; margin-top: 6px; } }
 
-@media (max-width: 620px) {
-  .carousel figure { height: 260px; }
-  .hero { padding: 56px 0 44px; }
-  .footer-splash-text { font-size: clamp(24px, 8vw, 44px); }
-}
+.site-footer { padding-top: 56px; }
+.footer-intro { padding: 0 0 40px; }
+.footer-intro .wrap { display: flex; justify-content: flex-end; }
+.footer-intro h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(28px, 4vw, 44px); margin: 0; max-width: 14ch; }
+.footer-contact { font-family: var(--sans); font-size: 16px; line-height: 1.9; }
+.footer-contact a { text-decoration: none; border-bottom: 1px solid var(--line); }
+.footer-photo { position: relative; overflow: hidden; }
+.footer-photo img { width: 100%; height: 62vw; max-height: 680px; object-fit: cover; display: block; }
+.footer-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: clamp(16px, 7vw, 90px); pointer-events: none; }
+.footer-splash-badge { position: relative; background: #FAA613; padding: clamp(22px, 4.5vw, 44px) clamp(34px, 7vw, 68px); clip-path: polygon(9% 2%, 34% 0%, 58% 3%, 84% 0%, 97% 12%, 100% 38%, 96% 60%, 100% 84%, 88% 99%, 63% 96%, 40% 100%, 15% 97%, 2% 86%, 0% 60%, 4% 36%, 0% 15%); opacity: 0; transform: rotate(-5deg) translateY(160px); will-change: transform, opacity; }
+.footer-splash-text { font-family: 'Luckiest Guy', var(--sans); color: #fff; -webkit-text-stroke: 2px #000; paint-order: stroke fill; text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000; font-size: clamp(30px, 5.6vw, 72px); line-height: 1.05; text-align: center; }
+.footer-copyright { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font-family: var(--sans); font-size: 12px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
 
-/* ---------- lightbox ---------- */
+/* ---------- LIGHTBOX (The fix is here) ---------- */
 
-.lightbox {
+#lightbox {
   position: fixed;
-  inset: 0;
-  background: rgba(10, 10, 8, 0.94);
-  display: none;
-  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.96);
+  z-index: 10000;
+  display: flex;
   justify-content: center;
-  z-index: 1000;
-  padding: 40px;
+  align-items: center;
+  
+  /* Hidden by default */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(8px);
 }
 
-.lightbox.is-open { display: flex; }
+/* Toggled via JavaScript */
+#lightbox[aria-hidden="false"] {
+  visibility: visible;
+  opacity: 1;
+}
+
+#lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 48px;
+  cursor: pointer;
+  z-index: 10010;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  padding: 20px 15px;
+  cursor: pointer;
+  z-index: 10010;
+}
+
+#lightbox-prev { left: 0; }
+#lightbox-next { right: 0; }
 
 .lightbox-figure {
   margin: 0;
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: 85vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .lightbox-img {
-  max-width: 90vw;
-  max-height: 80vh;
+  max-width: 100%;
+  max-height: 75vh;
   object-fit: contain;
-  display: block;
-}
-
-.lightbox-caption {
-  font-family: var(--sans);
-  font-size: 14px;
-  color: #F3F0E6;
-  margin-top: 14px;
-  text-align: center;
-  max-width: 70ch;
 }
 
 .lightbox-video {
-  display: none;
-  width: min(90vw, calc(80vh * 9 / 16));
-  height: 80vh;
-  max-height: 80vh;
+  width: 80vw;
+  aspect-ratio: 16 / 9;
+  max-height: 75vh;
 }
 
 .lightbox-video iframe {
   width: 100%;
   height: 100%;
   border: none;
-  display: block;
-  background: #000;
 }
 
-.lightbox-close,
-.lightbox-nav {
-  position: fixed;
-  background: transparent;
-  border: none;
-  color: #F3F0E6;
-  cursor: pointer;
-  font-family: var(--sans);
-}
-
-.lightbox-close {
-  top: 20px;
-  right: 24px;
-  font-size: 36px;
-  line-height: 1;
-}
-
-.lightbox-nav {
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 30px;
-  padding: 12px;
-}
-
-.lightbox-nav.prev { left: 12px; }
-.lightbox-nav.next { right: 12px; }
-
-.lightbox-close:hover,
-.lightbox-nav:hover { color: var(--red); }
-
-@media (max-width: 620px) {
-  .lightbox { padding: 16px; }
-  .lightbox-close { top: 10px; right: 14px; font-size: 30px; }
-  .lightbox-nav { font-size: 24px; padding: 8px; }
+#lightbox-caption {
+  color: #fff;
+  margin-top: 16px;
+  font-family: var(--serif);
+  font-style: italic;
 }

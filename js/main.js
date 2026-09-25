@@ -52,11 +52,13 @@ function buildCarousel(container, data) {
 
   items.forEach((item, i) => track.appendChild(makeFigure(data, item, i)));
 
-  items.forEach((item, i) => {
-    const clone = makeFigure(data, item, i);
-    clone.setAttribute("aria-hidden", "true");
-    track.appendChild(clone);
-  });
+  for (let copy = 0; copy < 2; copy++) {
+    items.forEach((item, i) => {
+      const clone = makeFigure(data, item, i);
+      clone.setAttribute("aria-hidden", "true");
+      track.appendChild(clone);
+    });
+  }
 
   initAutoDrift(container, track);
 }
@@ -103,16 +105,26 @@ function initAutoDrift(container, track) {
 
   let rafId = null;
   let resumeTimer = null;
-  let setWidth = 0;
+  let setWidth = 0; // width of one full (non-duplicated) set of items
 
   function measure() {
-    setWidth = track.scrollWidth / 2;
+    setWidth = track.scrollWidth / 3;
+  }
+
+  function centerIfNeeded() {
+    // if we're not yet positioned in the middle copy (e.g. first load,
+    // or content just finished loading/resizing), snap there with no
+    // animation -- this is what gives room to drag either direction
+    // right from the start
+    if (setWidth > 0 && (track.scrollLeft < setWidth * 0.5 || track.scrollLeft > setWidth * 1.5)) {
+      track.scrollLeft = setWidth;
+    }
   }
 
   function drift() {
     track.scrollLeft += DRIFT_SPEED;
 
-    if (setWidth > 0 && track.scrollLeft >= setWidth) {
+    if (setWidth > 0 && track.scrollLeft >= setWidth * 2) {
       track.scrollLeft -= setWidth;
     }
 
@@ -122,6 +134,7 @@ function initAutoDrift(container, track) {
   function start() {
     if (rafId) return;
     measure();
+    centerIfNeeded();
     rafId = requestAnimationFrame(drift);
   }
 
@@ -145,15 +158,20 @@ function initAutoDrift(container, track) {
     });
   });
 
+  // dragging into either outer copy snaps back into the equivalent spot
+  // in the middle copy, so the strip can be dragged forever either way
   track.addEventListener("scroll", () => {
     if (setWidth <= 0) return;
 
-    if (track.scrollLeft >= setWidth) track.scrollLeft -= setWidth;
-    else if (track.scrollLeft < 0) track.scrollLeft += setWidth;
+    if (track.scrollLeft >= setWidth * 2) track.scrollLeft -= setWidth;
+    else if (track.scrollLeft <= 0) track.scrollLeft += setWidth;
   });
 
-  window.addEventListener("resize", measure);
-  window.addEventListener("load", measure);
+  measure();
+  centerIfNeeded();
+
+  window.addEventListener("resize", () => { measure(); centerIfNeeded(); });
+  window.addEventListener("load", () => { measure(); centerIfNeeded(); });
 
   start();
 }
@@ -248,18 +266,37 @@ function initLightbox() {
 
 /* ---------- splash ---------- */
 
-function buildSplash() {
-  const el = document.getElementById("splash-block");
-  if (!el || !SPLASH_IMAGES?.length) return;
+function buildSplashSlots() {
+  const slots = document.querySelectorAll(".splash-band");
+  if (!slots.length || !SPLASH_IMAGES?.length) return;
 
-  const first = SPLASH_IMAGES[0];
+  slots.forEach((slot, i) => {
+    const item = SPLASH_IMAGES[i];
+    if (!item) return;
+    const img = document.createElement("img");
+    img.src = item.file;
+    img.alt = item.alt || "";
+    img.loading = "lazy";
+    slot.appendChild(img);
+  });
 
-  el.innerHTML = `
-    <figure>
-      <img src="${first.file}" alt="${first.caption || ""}">
-      ${first.caption ? `<figcaption>${first.caption}</figcaption>` : ""}
-    </figure>
-  `;
+  initSplashReveal(slots);
+}
+
+function initSplashReveal(slots) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    slots.forEach(s => s.classList.add("is-visible"));
+    return;
+  }
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  slots.forEach(s => observer.observe(s));
 }
 
 /* ---------- footer ---------- */
@@ -279,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
   buildCarousel(document.getElementById("tier-illustration"), GALLERY.illustration);
   buildCarousel(document.getElementById("tier-storyboard-video"), GALLERY.storyboardVideo);
 
-  buildSplash();
+  buildSplashSlots();
   setFooterPhoto();
   initLightbox();
 });

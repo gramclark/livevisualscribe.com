@@ -23,7 +23,8 @@ const GALLERY = {
   liveDigital: {
     folder: "images/work/live-digital/",
     items: [
-      { file: "15_Don_Thomas.png", caption: "Live graphic recording off-site on Procreate" },
+      { file: "15_Don_Thomas.png", caption: "Live graphic recording off-site at NASA's Kennedy Center on Procreate" },
+      { file: "PXL_20260211_221331426.jpg", caption: "Photo with astronaut Don Thomas" },
       { file: "Physical_Ai_Pitch_Night.png", caption: "Live graphic recording of LA Deep Tech Week event" },
     ]
   },
@@ -34,9 +35,8 @@ const GALLERY = {
       { file: "01-intro-illustration.png", caption: "Custom illustration for mission and vision, hand-drawn" },
       { file: "structure.png", caption: "Illustration for car manufacturer presentation, hand-drawn and digital" },
       { file: "796.JPG", caption: "Photo of posters in-situ for presentation by car manufacturer" },
-      { file: "diane007-e1268508865726.jpg", caption: "Portrait of medical practicioner for office environment" },
+      { file: "growth.png", caption: "Custom illustration for vision visualization, hand-drawn and digital" },
       { file: "MDTA-graphic.png", caption: "Mission graphic for Maryland Department of Transportation" },
-      { file: "3-rickdoblin.jpg", caption: "Portrait of Rick Doblin, leader in alternative medicine research and MAPS founder" },
 
     ]
   },
@@ -57,7 +57,10 @@ storyboardVideo: {
 /* Splash images — full-width breakout photos placed between sections
    (event photos, participants sharing on social, behind-the-scenes, etc). */
 const SPLASH_IMAGES = [
-  { file: "images/splash/splash-01-event-photo.png", caption: "Graphic recording works a treat to encourage engagement on social platforms." },
+  { file: "images/splash/proof.png", alt: "We can't always afford to wait for proof before jumping in — illustration" },
+  { file: "images/splash/boards.jpg", alt: "Graham Clark Stecklein kneeling in front of a full day's worth of live scribing boards" },
+  { file: "images/splash/pano.jpg", alt: "Graham Clark Stecklein standing in front of a full wall of scribed boards, arms outstretched" },
+  { file: "images/splash/splash-01-event-photo.png", alt: "Graphic recording shared and discussed on social media" },
 ];
 
 /* Footer photo — one big full-width image at the very bottom of the page. */
