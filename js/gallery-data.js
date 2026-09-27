@@ -56,12 +56,14 @@ storyboardVideo: {
 
 /* Splash images — full-width breakout photos placed between sections
    (event photos, participants sharing on social, behind-the-scenes, etc). */
-const SPLASH_IMAGES = [
-  { file: "images/splash/proof.png", alt: "We can't always afford to wait for proof before jumping in — illustration" },
-  { file: "images/splash/boards.jpg", alt: "Graham Clark Stecklein kneeling in front of a full day's worth of live scribing boards" },
-  { file: "images/splash/pano.jpg", alt: "Graham Clark Stecklein standing in front of a full wall of scribed boards, arms outstretched" },
-  { file: "images/splash/splash-01-event-photo.png", alt: "Graphic recording shared and discussed on social media" },
-];
+const SPLASH_IMAGES = {
+  digital: { file: "images/splash/proof.png", caption: "We can't always afford to wait for proof before jumping in." },
+  illustration: { file: "images/splash/boards.jpg", caption: "A full day's worth of scribing, ready to share." },
+  stack: [
+    { file: "images/splash/pano.jpg", caption: "" },
+    { file: "images/splash/splash-01-event-photo.png", caption: "Scribes get shared. A lot." },
+  ],
+};
 
 /* Footer photo — one big full-width image at the very bottom of the page. */
 const FOOTER_PHOTO = "images/footer/footer-photo.jpg";

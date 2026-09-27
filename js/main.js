@@ -4,7 +4,7 @@
    ========================================================================== */
 
 const DRIFT_SPEED = 0.25;
-const RESUME_DELAY = 0;
+const RESUME_DELAY = 10;
 
 /* ---------- helpers ---------- */
 
@@ -173,7 +173,18 @@ function initAutoDrift(container, track) {
   window.addEventListener("resize", () => { measure(); centerIfNeeded(); });
   window.addEventListener("load", () => { measure(); centerIfNeeded(); });
 
-  start();
+  // don't start drifting until this carousel actually scrolls into view --
+  // keeps the page calm on first load (just the hero video moving) instead
+  // of every carousel animating at once before you've scrolled to any of them
+  let inView = false;
+  const visibilityObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      inView = entry.isIntersecting;
+      if (inView) start();
+      else stop();
+    });
+  }, { threshold: 0.15 });
+  visibilityObserver.observe(shell);
 }
 
 /* ---------- IMAGE LIGHTBOX ONLY ---------- */
@@ -266,21 +277,51 @@ function initLightbox() {
 
 /* ---------- splash ---------- */
 
+function buildPolaroid(item) {
+  const polaroid = document.createElement("div");
+  polaroid.className = "polaroid";
+  const frame = document.createElement("div");
+  frame.className = "polaroid-frame";
+  const img = document.createElement("img");
+  img.src = item.file;
+  img.alt = item.caption || "";
+  img.loading = "lazy";
+  frame.appendChild(img);
+  polaroid.appendChild(frame);
+  return polaroid;
+}
+
 function buildSplashSlots() {
-  const slots = document.querySelectorAll(".splash-band");
-  if (!slots.length || !SPLASH_IMAGES?.length) return;
+  if (!SPLASH_IMAGES) return;
 
-  slots.forEach((slot, i) => {
-    const item = SPLASH_IMAGES[i];
-    if (!item) return;
-    const img = document.createElement("img");
-    img.src = item.file;
-    img.alt = item.alt || "";
-    img.loading = "lazy";
-    slot.appendChild(img);
-  });
+  // the two single "title, polaroid, strip" compositions
+  const digitalSlot = document.getElementById("splash-digital");
+  if (digitalSlot && SPLASH_IMAGES.digital) {
+    digitalSlot.appendChild(buildPolaroid(SPLASH_IMAGES.digital));
+  }
 
-  initSplashReveal(slots);
+  const illustrationSlot = document.getElementById("splash-illustration");
+  if (illustrationSlot && SPLASH_IMAGES.illustration) {
+    illustrationSlot.appendChild(buildPolaroid(SPLASH_IMAGES.illustration));
+  }
+
+  // the little stacked-photos vignette above Video / Animation
+  const stackSlot = document.getElementById("splash-stack");
+  if (stackSlot && SPLASH_IMAGES.stack?.length) {
+    const wrap = document.createElement("div");
+    wrap.className = "stack-wrap";
+    const back = buildPolaroid(SPLASH_IMAGES.stack[0]);
+    back.classList.add("stack-back");
+    wrap.appendChild(back);
+    if (SPLASH_IMAGES.stack[1]) {
+      const front = buildPolaroid(SPLASH_IMAGES.stack[1]);
+      front.classList.add("stack-front");
+      wrap.appendChild(front);
+    }
+    stackSlot.appendChild(wrap);
+  }
+
+  initSplashReveal(document.querySelectorAll(".tier-splash, .tier-splash-stack"));
 }
 
 function initSplashReveal(slots) {

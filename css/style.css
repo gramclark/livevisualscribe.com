@@ -126,12 +126,10 @@ a { color: inherit; }
   color: var(--ink-soft) !important;
 }
 
-/* UPDATED FOR MOBILE CORRECTNESS */
 .hero-video {
   position: relative;
   width: 100%;
-  /* Use aspect-ratio to keep it cinematic on mobile */
-  aspect-ratio: 1000 / 424; 
+  aspect-ratio: 1000 / 424;
   height: auto;
   min-height: auto;
   overflow: hidden;
@@ -139,11 +137,11 @@ a { color: inherit; }
 }
 
 .hero-video video {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center; /* Centered is usually safer for mobile */
-  display: block;
+  object-position: center center;
 }
 
 @media (min-width: 760px) {
@@ -185,7 +183,8 @@ a { color: inherit; }
 .carousel figure { flex: 0 0 auto; height: 420px; margin: 0; line-height: 0; }
 .carousel img { height: 100%; width: auto; max-width: none; object-fit: contain; background: #fff; display: block; cursor: pointer; }
 
-.single-work { display: flex; justify-content: left;}
+.single-work { display: flex; justify-content: flex-start; }
+.single-work figure { margin: 0; }
 .single-work img { max-width: min(100%, 640px); height: auto; display: block; cursor: pointer; }
 
 .faq { padding: 40px 0 56px; }
@@ -197,7 +196,11 @@ a { color: inherit; }
 .faq-main { width: 100%; }
 .faq-side { flex: 0 0 auto; max-width: 180px; }
 .faq-side img { width: 100%; height: auto; display: block; }
-@media (min-width: 860px) { .faq-layout { flex-direction: row; align-items: flex-start; gap: 48px; } .faq-side { max-width: 240px; margin-top: 6px; } }
+@media (min-width: 860px) {
+  .faq-layout { flex-direction: row; align-items: stretch; gap: 48px; }
+  .faq-side { max-width: none; width: min(34%, 360px); align-self: stretch; display: flex; align-items: center; margin-top: 0; }
+  .faq-side img { width: auto; height: 100%; max-width: 100%; object-fit: contain; }
+}
 
 .site-footer { padding-top: 56px; }
 .footer-intro { padding: 0 0 40px; }
@@ -211,6 +214,83 @@ a { color: inherit; }
 .footer-splash-badge { position: relative; background: #FAA613; padding: clamp(22px, 4.5vw, 44px) clamp(34px, 7vw, 68px); clip-path: polygon(9% 2%, 34% 0%, 58% 3%, 84% 0%, 97% 12%, 100% 38%, 96% 60%, 100% 84%, 88% 99%, 63% 96%, 40% 100%, 15% 97%, 2% 86%, 0% 60%, 4% 36%, 0% 15%); opacity: 0; transform: rotate(-5deg) translateY(160px); will-change: transform, opacity; }
 .footer-splash-text { font-family: 'Luckiest Guy', var(--sans); color: #fff; -webkit-text-stroke: 2px #000; paint-order: stroke fill; text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000; font-size: clamp(30px, 5.6vw, 72px); line-height: 1.05; text-align: center; }
 .footer-copyright { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font-family: var(--sans); font-size: 12px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+
+/* ---------- splash: polaroid above title (no overlap with work strip) ---------- */
+
+.tier-splash {
+  display: flex;
+  justify-content: flex-end;
+  margin: 12px 0 34px;
+}
+
+.polaroid {
+  flex: 0 0 auto;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.30), 0 6px 14px rgba(0,0,0,0.18);
+}
+
+.polaroid-frame { width: clamp(160px, 34vw, 340px); }
+.polaroid-frame img { display: block; width: 100%; height: auto; }
+
+.tier-splash .polaroid {
+  opacity: 0;
+  transform: translateX(90px) rotate(5deg);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tier-splash.is-visible .polaroid {
+  opacity: 1;
+  transform: translateX(0) rotate(5deg);
+}
+
+/* ---------- splash: stacked-photo vignette ---------- */
+
+.tier-splash-stack {
+  display: flex;
+  justify-content: flex-end;
+  margin: 8px 0 34px;
+}
+
+.stack-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* the wide "pano" photo: sticks out to the left, swoops in from the left */
+.stack-back {
+  position: relative;
+  opacity: 0;
+  transform: translateX(-110px) rotate(-14deg);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stack-back .polaroid-frame { width: clamp(220px, 46vw, 480px); }
+.tier-splash-stack.is-visible .stack-back { opacity: 1; transform: rotate(-6deg); }
+
+.stack-front {
+  position: absolute;
+  top: clamp(90px, 20vw, 170px);
+  right: clamp(-90px, -20vw, -60px);
+  z-index: 2;
+  opacity: 0;
+  transform: translateX(110px) rotate(16deg);
+  transition: opacity 0.9s ease 0.15s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+.stack-front .polaroid-frame { width: clamp(200px, 40vw, 420px); }
+
+.tier-splash-stack.is-visible .stack-front { opacity: 1; transform: rotate(5deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tier-splash .polaroid,
+  .stack-back,
+  .stack-front {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  .tier-splash .polaroid { transform: rotate(5deg) !important; }
+  .stack-back { transform: rotate(-6deg) !important; }
+  .stack-front { transform: rotate(5deg) !important; }
+}
 
 /* ---------- LIGHTBOX ---------- */
 
@@ -297,3 +377,13 @@ a { color: inherit; }
   font-family: var(--serif);
   font-style: italic;
 }
+/* ---------- contact form ---------- */
+
+.contact { padding: 20px 0 56px; }
+.contact h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(26px, 3.4vw, 36px); margin: 0 0 22px; }
+.contact-form { display: flex; flex-direction: column; gap: 16px; max-width: 520px; }
+.contact-form label { display: flex; flex-direction: column; gap: 6px; font-family: var(--sans); font-size: 14px; color: var(--ink-soft); }
+.contact-form input, .contact-form textarea { font-family: var(--serif); font-size: 16px; color: var(--ink); background: transparent; border: 1px solid var(--line); padding: 10px 12px; border-radius: 2px; }
+.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--ink); }
+.contact-form button { align-self: flex-start; font-family: var(--sans); font-weight: 700; font-size: 15px; background: var(--red); color: #fff; border: none; padding: 12px 28px; cursor: pointer; }
+.contact-form button:hover { opacity: 0.9; }
