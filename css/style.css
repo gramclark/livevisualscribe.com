@@ -280,6 +280,14 @@ a { color: inherit; }
 
 .tier-splash-stack.is-visible .stack-front { opacity: 1; transform: rotate(5deg); }
 
+@media (max-width: 619px) {
+  .tier-splash { margin: 8px 0 -10px; }
+  .tier-splash-stack { margin: 4px 0 -16px; }
+  .stack-back .polaroid-frame { width: clamp(170px, 56vw, 230px); }
+  .stack-front { top: clamp(56px, 17vw, 82px); right: clamp(-18px, -5vw, -6px); }
+  .stack-front .polaroid-frame { width: clamp(140px, 46vw, 190px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tier-splash .polaroid,
   .stack-back,
