@@ -395,3 +395,24 @@ a { color: inherit; }
 .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--ink); }
 .contact-form button { align-self: flex-start; font-family: var(--sans); font-weight: 700; font-size: 15px; background: var(--red); color: #fff; border: none; padding: 12px 28px; cursor: pointer; }
 .contact-form button:hover { opacity: 0.9; }
+.contact-form button[disabled] { opacity: 0.5; cursor: default; }
+.contact-form input[aria-invalid="true"], .contact-form textarea[aria-invalid="true"] { border-color: var(--red); }
+
+.contact-success, .contact-error {
+  font-family: var(--sans);
+  font-size: 14px;
+  max-width: 520px;
+  margin-bottom: 14px;
+  display: none;
+}
+.contact-success:not(:empty), .contact-error:not(:empty) { display: block; padding: 10px 14px; }
+.contact-success:not(:empty) { background: #EAF3EA; color: #2C5C3A; border: 1px solid #BFE0C4; }
+.contact-error:not(:empty) { background: #FBEAE7; color: #8A2E20; border: 1px solid #F0C4BC; }
+
+.contact-field-error {
+  display: block;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--red);
+  margin-top: -10px;
+}

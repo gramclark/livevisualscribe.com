@@ -215,13 +215,33 @@
 <section class="contact" id="contact">
   <div class="wrap">
     <h2>Get in touch</h2>
-    <form class="contact-form" action="https://formspree.io/f/gcsteck@gmail.com" method="POST">
+
+    <div data-fs-success class="contact-success"></div>
+    <div data-fs-error class="contact-error"></div>
+
+    <form id="contact-form" class="contact-form" action="https://formspree.io/f/mppwnkeo" method="POST">
       <input type="text" name="_gotcha" style="display:none">
-      <label>Name <input type="text" name="name" required></label>
-      <label>Email <input type="email" name="email" required></label>
-      <label>Event date / location <input type="text" name="event"></label>
-      <label>Message <textarea name="message" rows="5" required></textarea></label>
-      <button type="submit">Send</button>
+
+      <label for="cf-name">Name
+        <input type="text" id="cf-name" name="name" data-fs-field required>
+      </label>
+      <span data-fs-error="name" class="contact-field-error"></span>
+
+      <label for="cf-email">Email
+        <input type="email" id="cf-email" name="email" data-fs-field required>
+      </label>
+      <span data-fs-error="email" class="contact-field-error"></span>
+
+      <label for="cf-event">Event date / location
+        <input type="text" id="cf-event" name="event" data-fs-field>
+      </label>
+
+      <label for="cf-message">Message
+        <textarea id="cf-message" name="message" rows="5" data-fs-field required></textarea>
+      </label>
+      <span data-fs-error="message" class="contact-field-error"></span>
+
+      <button type="submit" data-fs-submit-btn>Send</button>
     </form>
   </div>
 </section>
@@ -251,5 +271,11 @@
 <script src="js/contact-protect.js"></script>
 <script src="js/footer-parallax.js"></script>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'mppwnkeo' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
