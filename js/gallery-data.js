@@ -26,6 +26,12 @@ const GALLERY = {
       { file: "15_Don_Thomas.png", caption: "Live graphic recording off-site at NASA's Kennedy Center on Procreate" },
       { file: "PXL_20260211_221331426.jpg", caption: "Photo with astronaut Don Thomas" },
       { file: "Physical_Ai_Pitch_Night.png", caption: "Live graphic recording of LA Deep Tech Week event" },
+      { file: "01_Ryan_McNeill.jpg", caption: "Keynote on satellites in journalism, live iPad graphic recording at the Open Source Journalism Conference" },
+      { file: "02_Gisela_Perez_de_Acha.jpg", caption: "Solving a murder case with OSINT, live on iPad" },
+      { file: "03_How_Open_Is_Open_Source.jpg", caption: "Panel: How Open Is Open Source? Captured live on iPad" },
+      { file: "04_Leon_Yin.jpg", caption: "Frontiers of crowdsourcing, live on iPad" },
+      { file: "05_Craig_Silverman.jpg", caption: "Analyzing digital evidence in open-source investigations, live on iPad" },
+      { file: "06_Brett_Redman.jpg", caption: "Ethical OSINT questions, live on iPad" },
     ]
   },
 
