@@ -4,7 +4,7 @@
    ========================================================================== */
 
 const DRIFT_SPEED = 0.25;
-const RESUME_DELAY = 10;
+const RESUME_DELAY = 1500;   // ms of no touching/scrolling before the drift resumes
 
 /* ---------- helpers ---------- */
 
@@ -21,6 +21,12 @@ function makeFigure(data, item, realIndex) {
   img.src = data.folder + item.file;
   img.alt = item.caption || "";
   img.loading = "lazy";
+  // known aspect ratio keeps every figure's width stable before lazy images load
+  // (needed so the three copies of the strip line up exactly)
+  if (item.ar) img.style.aspectRatio = item.ar;
+  else img.addEventListener("load", () => {
+    if (!img.style.aspectRatio && img.naturalWidth) img.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;
+  });
 
   img.addEventListener("click", () => {
     handleItemClick(data, item, realIndex);
@@ -102,89 +108,85 @@ function handleItemClick(data, item, index) {
 
 function initAutoDrift(container, track) {
   const shell = container.querySelector(".carousel-shell") || container;
+  const kids = track.children;
+  const n = kids.length / 3;                       // items in one copy of the strip
+  const L = i => kids[i].offsetLeft - kids[0].offsetLeft;   // left edge of figure i
 
-  let rafId = null;
-  let resumeTimer = null;
-  let setWidth = 0; // width of one full (non-duplicated) set of items
+  let pos = 0;            // our own float position (browsers round scrollLeft)
+  let expected = 0;       // what scrollLeft read back after our last write
+  let raf = null, last = 0;
+  let lastUser = -1e9;    // time of the visitor's last touch/scroll/hover
+  let hovering = false;
 
-  function measure() {
-    setWidth = track.scrollWidth / 3;
+  const markUser = () => { lastUser = performance.now(); };
+
+  function setPos(v) {
+    track.scrollLeft = v;
+    expected = track.scrollLeft;
+    pos = expected;
   }
 
-  function centerIfNeeded() {
-    // if we're not yet positioned in the middle copy (e.g. first load,
-    // or content just finished loading/resizing), snap there with no
-    // animation -- this is what gives room to drag either direction
-    // right from the start
-    if (setWidth > 0 && (track.scrollLeft < setWidth * 0.5 || track.scrollLeft > setWidth * 1.5)) {
-      track.scrollLeft = setWidth;
+  function indexAt(x) {
+    let i = 0;
+    while (i < kids.length - 1 && L(i + 1) <= x) i++;
+    return i;
+  }
+
+  // The strip is three identical copies. If we drift into the 3rd (or drag into
+  // the 1st), hop exactly one copy to the matching figure in the middle copy.
+  // Mapping by figure (not by a fixed width) means the hop is always seamless.
+  function wrap() {
+    const x = track.scrollLeft;
+    if (x >= L(2 * n)) {
+      const i = indexAt(x);
+      setPos(L(i - n) + (x - L(i)));
+    } else if (x < L(n) - 0.5) {
+      const i = indexAt(x);
+      setPos(L(i + n) + (x - L(i)));
     }
   }
 
-  function drift() {
-    track.scrollLeft += DRIFT_SPEED;
-
-    if (setWidth > 0 && track.scrollLeft >= setWidth * 2) {
-      track.scrollLeft -= setWidth;
-    }
-
-    rafId = requestAnimationFrame(drift);
+  function frame(ts) {
+    raf = requestAnimationFrame(frame);
+    const dt = last ? Math.min(ts - last, 50) : 16.7;
+    last = ts;
+    if (hovering || performance.now() - lastUser < RESUME_DELAY) return;
+    pos += DRIFT_SPEED * (dt / 16.7);
+    track.scrollLeft = pos;
+    expected = track.scrollLeft;
+    wrap();
   }
 
-  function start() {
-    if (rafId) return;
-    measure();
-    centerIfNeeded();
-    rafId = requestAnimationFrame(drift);
-  }
+  function start() { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
+  function stop() { if (raf) cancelAnimationFrame(raf); raf = null; }
 
-  function stop() {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = null;
-  }
+  // visitor input: never fight it; drift resumes RESUME_DELAY ms after they stop
+  ["touchstart", "touchend", "pointerdown", "pointerup", "wheel"].forEach(evt =>
+    track.addEventListener(evt, markUser, { passive: true })
+  );
+  shell.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") hovering = true; });
+  shell.addEventListener("pointerleave", () => { hovering = false; markUser(); });
 
-  function pauseThenResume(delay) {
-    stop();
-    if (resumeTimer) clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(start, delay);
-  }
-
-  shell.addEventListener("mouseenter", stop);
-  shell.addEventListener("mouseleave", () => pauseThenResume(1200));
-
-  ["touchstart", "wheel", "pointerdown"].forEach(evt => {
-    track.addEventListener(evt, () => pauseThenResume(RESUME_DELAY), {
-      passive: true
-    });
-  });
-
-  // dragging into either outer copy snaps back into the equivalent spot
-  // in the middle copy, so the strip can be dragged forever either way
+  // any scroll we didn't cause is the visitor scrolling: adopt it, keep looping
   track.addEventListener("scroll", () => {
-    if (setWidth <= 0) return;
+    if (Math.abs(track.scrollLeft - expected) > 1.5) {
+      markUser();
+      pos = expected = track.scrollLeft;
+      wrap();
+    }
+  }, { passive: true });
 
-    if (track.scrollLeft >= setWidth * 2) track.scrollLeft -= setWidth;
-    else if (track.scrollLeft <= 0) track.scrollLeft += setWidth;
+  // start in the middle copy so there is room to drag either direction
+  setPos(L(n));
+  window.addEventListener("load", () => {
+    if (performance.now() - lastUser > 1000) setPos(L(n));   // layout settled; re-center once
   });
+  window.addEventListener("resize", () => requestAnimationFrame(wrap));
 
-  measure();
-  centerIfNeeded();
-
-  window.addEventListener("resize", () => { measure(); centerIfNeeded(); });
-  window.addEventListener("load", () => { measure(); centerIfNeeded(); });
-
-  // don't start drifting until this carousel actually scrolls into view --
-  // keeps the page calm on first load (just the hero video moving) instead
-  // of every carousel animating at once before you've scrolled to any of them
-  let inView = false;
-  const visibilityObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      inView = entry.isIntersecting;
-      if (inView) start();
-      else stop();
-    });
-  }, { threshold: 0.15 });
-  visibilityObserver.observe(shell);
+  // don't drift until this strip is on screen (page stays calm on first load)
+  new IntersectionObserver(entries => {
+    entries.forEach(entry => (entry.isIntersecting ? start() : stop()));
+  }, { threshold: 0.15 }).observe(shell);
 }
 
 /* ---------- IMAGE LIGHTBOX ONLY ---------- */

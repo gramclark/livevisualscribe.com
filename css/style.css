@@ -281,11 +281,27 @@ a { color: inherit; }
 .tier-splash-stack.is-visible .stack-front { opacity: 1; transform: rotate(5deg); }
 
 @media (max-width: 619px) {
-  .tier-splash { margin: 8px 0 -10px; }
-  .tier-splash-stack { margin: 4px 0 -16px; }
-  .stack-back .polaroid-frame { width: clamp(170px, 56vw, 230px); }
-  .stack-front { top: clamp(56px, 17vw, 82px); right: clamp(-18px, -5vw, -6px); }
-  .stack-front .polaroid-frame { width: clamp(140px, 46vw, 190px); }
+  /* SIMPLE + EQUAL: every polaroid is centered with 56px of space on all four sides.
+     (56px = the normal section padding, so the gap above matches the gap below.)
+     No tilt, no animation, always visible. */
+  #tier-live-digital,
+  #tier-illustration,
+  #tier-storyboard-video { padding-top: 0; }   /* gap above = previous section's bottom padding */
+
+  .tier-splash,
+  .tier-splash-stack { display: flex; justify-content: center; margin: 0 0 56px; }
+
+  .polaroid-frame,
+  .tier-splash .polaroid-frame,
+  .stack-back .polaroid-frame,
+  .stack-front .polaroid-frame { width: min(340px, calc(100vw - 132px)); }  /* 56px left + right, minus the 10px white border each side */
+
+  .stack-wrap { display: flex; flex-direction: column; align-items: center; gap: 56px; }
+  .stack-front { position: static; top: auto; right: auto; }
+
+  .tier-splash .polaroid,
+  .stack-back,
+  .stack-front { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
